@@ -20,7 +20,7 @@
             <label >URL da Foto</label>
             <input v-model="product.urlFoto" type="text" class="form-control" placeholder="URL foto do produto">
         </div>
-        <button type="submit"  @click="salvarProduto"  class="btn btn-primary">Salvar</button>
+        <button type="submit"  @click="salvarProduto"  class="btn btn-success mt-3">Salvar produto</button>
     </form>
 </template>
   
@@ -44,7 +44,12 @@
         salvarProduto(event){
             event.preventDefault();
             this.$emit('refreshList',JSON.parse(JSON.stringify(this.product)))
-        }
+        },
+
+        onEditProduct(event){
+            this.product = event;
+        },
+
     }
   }
   </script>

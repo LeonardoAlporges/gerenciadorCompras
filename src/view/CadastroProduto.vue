@@ -1,6 +1,6 @@
 <template>
-    <CadastroProdutoForm @refreshList="onRefresh($event)"></CadastroProdutoForm>
-    <ProdutoCadastrados :productList="productList"></ProdutoCadastrados>
+    <CadastroProdutoForm ref="cadastroProdutosForm" @refreshList="onRefresh($event)" :productEdit="productEdit" ></CadastroProdutoForm>
+    <ProdutoCadastrados :productList="productList" @onRemove="onRemove($event)"  @onEdit="onEdit($event)"></ProdutoCadastrados>
 </template>
 
 <script>
@@ -12,27 +12,32 @@ export default {
 
     data() {
         return {
-            productList : []
+                productList : [],
             }
         },
 
     methods: {
-        onRefresh(parametro){
+        onRefresh(newProduct){
+                this.productList.map(produto => {
+                    if(produto?.codigo === newProduct?.codigo){
+                        produto.quantidade++;
+                    }
+                })
 
-                // Logica para caso já tenha um produto na lista ele alterar a quantidade.
-                // this.productList = this.productList.map(produto => {
-                //     if(produto.codigo === this.product.codigo){
-                //         produto.quantidade++;
-                //         return produto;
-                //     }
-                // })
+                if(this.productList.filter(produto => produto.codigo == newProduct.codigo).length == 0){
+                    this.productList.push(newProduct);
+                }
+        },
 
-                // Logica para caso o produto seja igual manter somente a adição de quantidade nele, e nao adicionar na lista novamente
-                // if(this.productList.filter(produto => produto.codigo === parametro.codigo).length === 0){
-                //     
-                // }
-                this.productList.push(parametro);
-            
+        onRemove(codigo){
+            let indexProdutoToRemove = this.productList.filter(produto => produto.codigo === codigo);
+            if(indexProdutoToRemove != -1 ){
+                this.productList.splice(indexProdutoToRemove,1)
+            } 
+        },
+
+        onEdit(produto){
+            this.$refs.cadastroProdutosForm.onEditProduct(produto);
         }
     }
 }
