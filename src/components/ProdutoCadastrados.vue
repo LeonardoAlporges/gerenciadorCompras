@@ -43,13 +43,35 @@
   </template>
   
   <script>
+    import { collection, getDocs } from "firebase/firestore";
+    import { db } from '../firebase';
   export default {
+
+    
     name:'ProdutoCadastrados',
-    props: {
-        productList: Array
+    // props: {
+    //     productList: Array
+    // },
+    data() {
+        return {
+            productList: []
+           
+            }
+    },
+
+    mounted(){
+        this.getProdutosFirebase();
     },
 
     methods: {
+
+        async getProdutosFirebase(){
+            const querySnapshot = await getDocs(collection(db, "produtos"));
+                querySnapshot.forEach((doc) => {
+                    this.productList.push(doc.data())
+        });
+        },
+
         removeProduct(product){
             this.$emit('onRemove',product)
         },

@@ -35,6 +35,11 @@
 </template>
   
 <script>
+
+import { doc, setDoc } from "firebase/firestore";
+import { db } from '../firebase';
+
+
   export default {
     name:'CadastroProdutoForm',
 
@@ -54,9 +59,23 @@
             },
            
             }
-        },
+    },
+
     methods: {
+
+       async salvarProdutoFirestore(){
+            await setDoc(doc(db, "produtos", this.product.codigo),{
+                codigo: Number(this.product.codigo),
+                nome:this.product.nome,
+                descricao:this.product.descricao,
+                foto:this.product.urlFoto,
+                preco:this.product.preco,
+                quantidade:this.product.quantidade
+            });
+        },
+
         salvarProduto(event){
+            this.salvarProdutoFirestore();
             event.preventDefault();
             this.$emit('refreshList',JSON.parse(JSON.stringify(this.product)))
         },

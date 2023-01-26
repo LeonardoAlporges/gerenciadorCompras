@@ -12,9 +12,11 @@
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.2",
     "core-js": "^3.8.3",
+    "firebase": "^9.16.0",
     "vue": "^3.2.13",
     "vue-router": "4",
-    "vue-template-compiler": "^2.7.14"
+    "vue-template-compiler": "^2.7.14",
+    "vuefire": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
