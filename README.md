@@ -1,6 +1,5 @@
 # Gerenciador de Compras 
 
-## TEMA : Gerenciador de Compras 
 ## Integrantes :
 Leonardo Alporges - 2018206243   
 Gabriel Marrochi -    
