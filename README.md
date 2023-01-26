@@ -2,8 +2,11 @@
 
 ## Integrantes :
 Andrico Verly Minarrine - 2018204791
-Gabriel Marrochi O. de Souza - 2018204828   
+
+Gabriel Marrochi O. de Souza - 2018204828
+
 Leonardo Alporges Martins - 2018206243   
+
 Mayara da Silva Oliveira - 2018205019
 
 ## Project setup
