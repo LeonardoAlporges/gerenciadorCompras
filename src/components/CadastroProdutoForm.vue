@@ -21,7 +21,11 @@
             </div>
             <div class="col">
                 <label >URL da foto</label>
-                <input v-model="product.urlFoto" type="text" class="form-control" placeholder="URL foto do produto">
+                <input v-model="product.foto" type="text" class="form-control" placeholder="URL foto do produto">
+            </div>
+            <div class="col">
+                <label >Quantidade</label>
+                <input v-model="product.quantidade" type="number" class="form-control" placeholder="Quantidade">
             </div>
         </div>
         <div class="row">
@@ -39,7 +43,6 @@
 import { doc, setDoc } from "firebase/firestore";
 import { db } from '../firebase';
 
-
   export default {
     name:'CadastroProdutoForm',
 
@@ -51,33 +54,32 @@ import { db } from '../firebase';
         return {
             product : {
                 codigo : null,
-                nome : null,
+                nome : '',
                 descricao : null,
                 preco : null,
-                urlFoto : null,
-                quantidade : 1,
-            },
-           
-            }
+                foto : null,
+                quantidade : null,
+            },   
+        }
     },
 
     methods: {
 
-       async salvarProdutoFirestore(){
+        async salvarProdutoFirestore(){
             await setDoc(doc(db, "produtos", this.product.codigo),{
-                codigo: Number(this.product.codigo),
+                codigo: this.product.codigo,
                 nome:this.product.nome,
                 descricao:this.product.descricao,
-                foto:this.product.urlFoto,
+                foto:this.product.foto,
                 preco:this.product.preco,
                 quantidade:this.product.quantidade
             });
+            this.$store.dispatch('refreshProductList')
         },
 
         salvarProduto(event){
             this.salvarProdutoFirestore();
             event.preventDefault();
-            this.$emit('refreshList',JSON.parse(JSON.stringify(this.product)))
         },
 
         onEditProduct(event){
@@ -85,8 +87,8 @@ import { db } from '../firebase';
         },
 
         saveEditProduct(event){
+            this.salvarProdutoFirestore();
             event.preventDefault();
-            this.$emit('saveEditProduct',JSON.parse(JSON.stringify(this.product)))
         },
 
         cleanCancel(){
@@ -95,8 +97,7 @@ import { db } from '../firebase';
             this.product.nome = null,
             this.product.preco = null,
             this.product.quantidade = null,
-            this.product.urlFoto = null
-
+            this.product.foto = null
             this.$emit('cleanCancel')
         }
 

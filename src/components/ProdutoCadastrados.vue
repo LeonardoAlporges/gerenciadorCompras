@@ -1,7 +1,7 @@
 <template>
     <div class="mt-5">
         <p class="h3">Produtos cadastrados</p>
-        <table class="table" v-if="productList.length > 0">
+        <table class="table" v-if="$store.state.productList.length > 0">
             <thead>
                 <tr>
                 <th scope="col">Código</th>
@@ -13,13 +13,13 @@
                 <th scope="col">Ações</th>
                 </tr>
             </thead>
-            <tbody  v-for="product in productList || []" :key="product" >
+            <tbody  v-for="product in $store.state.productList || []" :key="product" >
                 <tr>
                 <th scope="row">{{product?.codigo}}</th>
                 <td>{{product?.nome}}</td>
                 <td>{{product?.descricao}}</td>
                 <td>{{product?.preco}}</td>
-                <td>{{product?.urlFoto}}</td>
+                <td>{{product?.foto}}</td>
                 <td>{{product?.quantidade}}</td>
                 <td> 
                     <div class="d-flex justify-content-around">
@@ -32,7 +32,7 @@
             </tbody>
         </table>
     
-        <div class="container text-center mt-5" v-if="productList.length == 0">
+        <div class="container text-center mt-5" v-if="$store.state.productList.length == 0">
             <div class="row">
                 <div class="col alert alert-danger" role="alert">
                     Ainda não existem produtos cadastrados no site!
@@ -43,21 +43,9 @@
   </template>
   
   <script>
-    import { collection, getDocs } from "firebase/firestore";
-    import { db } from '../firebase';
-  export default {
 
-    
+  export default {    
     name:'ProdutoCadastrados',
-    // props: {
-    //     productList: Array
-    // },
-    data() {
-        return {
-            productList: []
-           
-            }
-    },
 
     mounted(){
         this.getProdutosFirebase();
@@ -66,14 +54,11 @@
     methods: {
 
         async getProdutosFirebase(){
-            const querySnapshot = await getDocs(collection(db, "produtos"));
-                querySnapshot.forEach((doc) => {
-                    this.productList.push(doc.data())
-        });
+            this.$store.dispatch('refreshProductList')
         },
 
-        removeProduct(product){
-            this.$emit('onRemove',product)
+        async removeProduct(codigo){
+            this.$store.dispatch('deleteProductOnList',codigo);
         },
 
         editProduct(product){
@@ -81,7 +66,7 @@
         },
 
         addWishList(product){
-            this.$emit('addWishList',JSON.parse(JSON.stringify(product)))
+            this.$store.dispatch('addProdutWishList',product);
         }
     }
   }
