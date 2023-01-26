@@ -1,4 +1,4 @@
-# gererenciadorcompras
+# Gerenciador de Compras 
 
 ## TEMA : Gerenciador de Compras 
 ## Integrantes :
