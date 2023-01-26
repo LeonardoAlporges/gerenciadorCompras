@@ -1,5 +1,11 @@
 # gererenciadorcompras
 
+## TEMA : Gerenciador de Compras 
+## Integrantes :
+Leonardo Alporges - 2018206243   
+Gabriel Marrochi -    
+Mayara Oliveira -
+Andrico -     
 ## Project setup
 ```
 yarn install
